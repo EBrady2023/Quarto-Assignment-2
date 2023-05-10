@@ -1,0 +1,156 @@
+---
+title: "Women between the ages 18-29 who have experienced sexual Violence "
+
+subtitle: "Data Assignment 2"
+format: html
+execute:
+  echo: TRUE
+  warning: false
+  message: false
+
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library (tidyverse)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+```
+
+```{r}
+Indicator <- read.csv("/cloud/project/Data_1.csv")
+Data_1 <- read.csv("/cloud/project/Data_1.csv")
+leftjoined_data <- read.csv("/cloud/project/Data_1.csv")
+METADATA<- read.csv("/cloud/project/METADATA.csv")
+Indicator_Data<- read.csv("/cloud/project/Indicator_Data.csv")
+Afr_Data<- read.csv("/cloud/project/Afr.Data.csv")
+METADATA_2<-read.csv("/cloud/project/METADATA_2")
+```
+
+
+```{r}
+leftjoined_data%>%
+  ggplot(aes(year,obs_value))+
+  geom_point()+
+  geom_smooth(method= "lm", se=FALSE)
+
+```
+
+
+```{r}
+
+library(ggplot2)
+
+ggplot(Data_1, aes(x = year, y = obs_value)) +
+  geom_bar(stat = "identity")
+
+```
+
+```{r}
+library(ggplot2)
+
+Data_1 <- read.csv("/cloud/project/Data_1.csv")
+view(Data_1)
+
+map_data <- map_data("world")
+view(map_data)
+map_data <- left_join(map_data, Data_1, by="region")
+view(map_data)
+
+map3 <- ggplot(map_data, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = obs_value), color = 'Black') +
+
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.ticks.y = element_blank(),
+    rect = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  ) +
+  xlab('') +
+  ylab('')
+map3
+
+
+```
+
+
+```{r}
+Afr_Data <- data.frame(Afr_Data)
+```
+
+```{r}
+ggplot()
+view(Afr_Data)
+map_data <- map_data("world")
+view(map_data)
+map_data <- left_join(map_data, Afr_Data, by="region")
+view(map_data)
+
+map3 <- ggplot(map_data, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = obs_value), color = 'Black') +
+
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.ticks.y = element_blank(),
+    rect = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  ) +
+  xlab('') +
+  ylab('')
+
+map3
+
+```
+
+
+```{r}
+ggplot()
+Indicator_Data%>%
+  ggplot(aes(year,obs_value))+
+  geom_line()
+
+```
+`
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+data_Trinidad <- METADATA_2 %>% filter(region == "Trinidad and Tobago")
+ggplot(data_Trinidad, aes(x = year, y = GDP.per.capita..constant.2015.US.., color = Inflation..consumer.prices..annual...)) +
+  geom_point() +
+  labs(x = "Year", y = "GDP per capita (constant 2015 US$)", color = "Inflation") +
+  ggtitle("GDP per capita and inflation in Trindad and Tobago") 
+
+ 
+```
+
+
+```{r, error=FALSE}
+library(dplyr)
+library(ggplot2)
+data_Senegal <- METADATA_2 %>% filter(region =="Senegal")
+ggplot(data_Senegal, aes(x = year, y = GDP.per.capita..constant.2015.US.., color = Inflation..consumer.prices..annual...)) +
+  geom_point() +
+  labs(x = "Year", y = "GDP.per.capita..constant.2015.US..$)", color = "Inflation..consumer.prices..annual...") +
+  ggtitle("GDP.per.capita..constant.2015.US.. and inflation..consumer.prices..annual...in Senegal")
+```
+
+```{r}
+
+```
+
+
