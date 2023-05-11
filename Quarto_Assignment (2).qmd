@@ -1,0 +1,203 @@
+---
+title: "Quarto Data_Assignment"
+subtitle: "Women who have experienced Sexual Violence between the Ages of 18-29"
+Author: "Erin Brady"
+format: html
+editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library (tidyverse)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+```
+
+```{r}
+Indicator <- read.csv("/cloud/project/Data_1.csv")
+Data_1 <- read.csv("/cloud/project/Data_1.csv")
+leftjoined_data <- read.csv("/cloud/project/Data_1.csv")
+METADATA<- read.csv("/cloud/project/METADATA.csv")
+Indicator_Data<- read.csv("/cloud/project/Indicator_Data.csv")
+Afr_Data<- read.csv("/cloud/project/Afr.Data.csv")
+METADATA_2<-read.csv("/cloud/project/METADATA_2")
+
+```
+
+***Scatterplot with Regression Line*** - According to the World Health Organisations, it is estimated that 1 in 3 women has experienced physical or sexual assault in her life(WHO,2021). In the below data from the Indicator 1, it highlights that sexual violence is still a prominant issue in the world today. The dataset does not include every country and age group but depicts a staunch reality that face many women today.
+
+```{r}
+leftjoined_data%>%
+  ggplot(aes(year,obs_value))+
+  geom_point()+
+  geom_smooth(method= "lm", se=FALSE)
+```
+
+***Bar Chart: Showing the Indicators Observed Value and Year***
+
+```{r}
+library(ggplot2)
+
+ggplot(Data_1, aes(x = year, y = obs_value)) +
+  geom_bar(stat = "identity")
+
+```
+
+**World Map**-
+
+-   This world map shows the various countries were data was collected and the observed value percentage of how many women who have experience sexual violence.
+
+-   In this map it highlights high levels of Sexual Violence within Sweden which is considered a 'developed' first world country, which is highlighted in bright blue. Sweden is ranked 4th in the world when it comes to Sexual Violence against women and in 2021 8% of women in Sweden reported they were victims of Sexual Experience.(Statista, 2022).The Swedish National Council for Crime Prevention (In Swedish: Brottsförebyggande rådet or Brå for short) has stated that there were 23 200 sexual crimes reported to the police in 2019.(SNCCP,2019). Expanding on this observation more it is interesting to discover that Sweden has a high level of Sexual Violence. It also must be noted that the data received is only from one particular year (2012).Yet upon further research from research articles and reports this is a big issue. According to Amnesty International "Women in Nordic nations deal with high levels of rape and abuse even as the countries lead in gender equality"(Amnesty,2019). Due to flawed legislation, gender stereotypes and lack of trust resulted in an endemic impunity for rapists across Sweden. Despite the high levels of sexual abuse/assault in Sweden, only 6% of cases were prosecuted.
+
+-   However, in 2018 new legislation reforms were introduce in regards to sexual abuse/violence, which redefined the legal term of rape in Swedish law. Since then conviction rates has risen to 75% in 2020. Sweden's National Council on Crime Prevention stated that 'rates of conviction have increased from 190 in 2017 to 333 in 2019' which shows a great development in improving justice for victims of sexual assault.(Reuters,2020)
+
+```{r}
+library(ggplot2)
+
+Data_1 <- read.csv("/cloud/project/Data_1.csv")
+view(Data_1)
+
+map_data <- map_data("world")
+view(map_data)
+map_data <- left_join(map_data, Data_1, by="region")
+view(map_data)
+
+map3 <- ggplot(map_data, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = obs_value), color = 'Black') +
+
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.ticks.y = element_blank(),
+    rect = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  ) +
+  xlab('') +
+  ylab('')
+
+map3
+```
+
+***Time-Series Chart:***
+
+```{r}
+ggplot()
+Indicator_Data%>%
+  ggplot(aes(year,obs_value))+
+  geom_line()
+```
+
+***World Map:***
+
+-   In This world map I have concentrated the Indicator: 'Women who have experienced Sexual Violence between the Ages of 18-29', within the Continent of Africa and other Countries whos population are mostly of African decent. In the IMF Report(International Monetary Fund) on Gender-based Violence, it discusses that it has a significant economic impact on countries especially within African countries. In their report -According to UN Women(2020) the cost of violence against women amounts to \$1.5 trillion (US) at a global level.
+
+```{r}
+ggplot()
+view(Afr_Data)
+map_data <- map_data("world")
+view(map_data)
+map_data <- left_join(map_data, Afr_Data, by="region")
+view(map_data)
+
+map3 <- ggplot(map_data, aes(x = long, y = lat, group = group)) +
+  geom_polygon(aes(fill = obs_value), color = 'Black') +
+
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.ticks.y = element_blank(),
+    rect = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  ) +
+  xlab('') +
+  ylab('')
+
+map3
+```
+
+***Plot 1-*** Trinidad and Tabago have the Highest Sexual Violence Stats and the Impact of this on GDP & Inflation
+
+-   I decided to focus more on African countries/Countries who have large populations that descend from Africa such as Trinidad and Tabago. After analysising the Datasets I found that Trinidad and Tabago had the highest observed value in relation to sexual violence against women (24.8) which can also be seen in the Time-Series Chart.
+-   In the following paragraph I will discuss the implications of Sexual Violence has had on Trinidad and Tabagos GDP. In the graph below Trinidad & Tabagos GDP does not have a positive relationship with the indicator. There GDP has decreased significantly since Covid-19 which correlates to the discovers of increase violence against women due to the pandemic (insert reference). Due to an increase in violence In the National Women's Health Survey for Trinidad and Tobago(2018). The IADB study found that between 1.6 and 2 % of Gross National Product was forgone in womens wages because of domestic violence. In the 2005 IADB study of how sexual violence effects GDP in Trinidad & Tabago it estimated that sexual abuse and domestic violence cost the country a sizeable \$487.7 million or a little more than 0.5% of GDP for that year. In analyzing the burden of costs, the study showed it is evident that the victim of violence accounts for \$244.3 million or 0.26% of GDP. Further analysis shows that the government bears the next highest burden of the cost,\$80.6 million or 0.08% of GDP with the community following closely with a cost burden of \$71.8 million or 0.07% of GDP in 2005.(Theodore, et.al, IADB)
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+data_Trinidad <- METADATA_2 %>% filter(region == "Trinidad and Tobago")
+ggplot(data_Trinidad, aes(x = year, y = GDP.per.capita..constant.2015.US.., color = Inflation..consumer.prices..annual...)) +
+  geom_point() +
+  labs(x = "Year", y = "GDP per capita (constant 2015 US$)", color = "Inflation") +
+  ggtitle("GDP per capita and inflation in Trindad and Tobago")
+```
+
+```{r}
+GDP_Data <- read.csv("/cloud/project/GDP_Data.csv")
+Data_1<- read.csv("/cloud/project/Data_1.csv")
+merged_data2 <- merge(GDP_Data,Data_1, by = "region")
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+data_Trinidad <- merged_data2 %>% filter(region == "Trinidad and Tobago")
+ggplot(data_Trinidad, aes(x = obs_value, y = GDP.per.capita..constant.2015.US.., color = obs_value)) +
+  geom_point() +
+  labs(x = "Obs_value", y = "GDP per capita (constant 2015 US$)", color = "Obs_Value") +
+  ggtitle("GDP per capita and inflation in Trindad and Tobago")
+```
+
+***Plot 2-*** Senegal has the Lowest Sexual Violence Stats and the Impact of this on GDP & Inflation
+
+-   According to the UN Indicator Dataset, Senegal had the lowest observed value of women who have experienced sexual violence between the ages of 18-29. However, Senegal's economic growth stood at 4.8% of gross domestic product (GDP), 1.3 percentage points below the estimated economic growth rate of 6.1% for 2021. Inflation, which reached its highest point in decades, was estimated at 8.5% on average in 2022, compared with 2.2% in 2021 -- almost 3 times the maximum limit of 3% set within the West African Economic and Monetary Union.(UNICEF,2022) Which can be seen in the data plot below. However, it must be noted that Senegal has a high rate of sexual violence in regards to children (those under the age of 18) and has a long history of Child abuse, particularly sexual violence, as it is estimated around 15,000 girls ages 15-17 are victims of sexual violence.(UNICEF Senegal,2022) According to the DHS (2019) 2.9% of girls aged between 15-17 have been victims of sexual violence in the previous year.
+
+```{r,error=FALSE}
+library(dplyr)
+library(ggplot2)
+data_Senegal <- METADATA_2 %>% filter(region =="Senegal")
+ggplot(data_Senegal, aes(x = year, y = GDP.per.capita..constant.2015.US.., color = Inflation..consumer.prices..annual...)) +
+  geom_point() +
+  labs(x = "Year", y = "GDP.per.capita..constant.2015.US..$)", color = "Inflation..consumer.prices..annual...") +
+  ggtitle("GDP.per.capita..constant.2015.US.. and inflation..consumer.prices..annual...in Senegal")
+```
+
+*References:*
+
+Amnesty International,(2019),'Nordic Countries:Survivors of Rape unite to end impunity for rapists and break barriers to justice', https://www.amnesty.org/en/latest/press-release/2019/04/rape-and-sexual-violence-in-nordic-countries-consent-laws/.
+
+Bartha,Emma,(2020),'Rape conviction rates rise 75% in Sweden after change in the law', Reuters, https://www.reuters.com/article/us-sweden-crime-rape-law-trfn-idUSKBN23T2R3.
+
+DHS,(2019),'The National Agency for Statistics and Demography (ANSD', https://dhsprogram.com/pubs/pdf/FR368/FR368.pdf
+
+Ouedraogo, R. & Stenzel, R.,(2021),'International Monetary Fund: The Heavy Economic Toll of Gender-based Violence: Evidence from Sub-Saharan Africa,IMF,https://www.imf.org/-/media/Files/Publications/WP/2021/English/wpiea2021277-print-pdf.ashx.
+
+Pemberton, C., Joseph, J.,(2018),'National Women's Health Survey: for Trinidad and Tobago',Inter-American Development Bank, https://cso.gov.tt/wp-content/uploads/2022/02/National-Womens-Health-Survey-for-Trinidad-and-Tobago.pdf
+
+Statista Research Department,(2022), 'Share of self-reported crime victims in Sweden 2021, by gender and type of crime',STATISTA, https://www.statista.com/statistics/1177916/share-of-self-reported-crime-victims-in-sweden-by-gender-and-type-of-crime/#:\~:text=Nearly%20eight%20percent%20of%20women,only%201.2%20percent%20of%20men.
+
+Theodore,K.,Laptiste, C., La Foucade, A., Metivier, C., Gitten-Baynes, K.A., 'The Cost of Sexual Abuse and Domestice Violence: An Economic Perspective with Implications for Trinidad and Tobago', University of West Indies, https://sta.uwi.edu/nlc/2008/documents/papers/KAGittens-BaynesOrs.doc
+
+UN Women, (2020), 'COVID-19 and Ending Violence Against Women and Girls', New York: UN Women.
+
+UNICEF,(2022),'Country Office Annual Report 2022: Senegal',https://www.unicef.org/media/136361/file/Senegal-2022-COAR.pdf
+
+UNICEF Senegal,(2022),'Ending Violence againts children in Senegal', UNICEF, https://www.unicef.org/senegal/en/stories/ending-violence-against-children-senegal
+
+United Nations Office on Drugs & Crime World Health Organisation (WHO),(2021), 'Devastatingly pervasive: 1 in 3 women globally experience violence',https://www.who.int/news/item/09-03-2021-devastatingly-pervasive-1-in-3-women-globally-experience-violence#:\~:text=Across%20their%20lifetime%2C%201%20in,unchanged%20over%20the%20past%20decade.
+
+Våldtäkt och sexualbrott,: Swedish National Council for Crime Prevention (SNCCP),(2019), Available from: https://www.bra.se/statistik/statistik-utifran-brottstyper/valdtakt-och-sexualbrott.html.
